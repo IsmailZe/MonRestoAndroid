@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.monresto.acidlabs.monresto.Base64;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 
@@ -30,7 +31,7 @@ public class PaymentActivity extends AppCompatActivity {
     @BindView(R.id.webview)
     WebView webView;
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetJavaScriptEnabled", "NewApi"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +41,17 @@ public class PaymentActivity extends AppCompatActivity {
         buttonClose.setOnClickListener(e -> finish());
 
         int orderID = getIntent().getIntExtra("orderID", 89551);
-        String payUrl = getIntent().getStringExtra("payUrl");
+        String payUrl = "";
+        try {
+            payUrl = getIntent().getStringExtra("payUrl");
+        }catch (Exception ignored)
+        {
+
+        }
         String postData = "orderID=" + orderID;
         String html = null;
 
-        //webView.postUrl("https://www.monresto.net/processgpg.php", Base64.encode(postData.getBytes()).getBytes());
+        webView.postUrl("https://www.monresto.net/processgpg.php", Base64.encode(postData.getBytes()).getBytes());
 
 
         webView.setWebChromeClient(new WebChromeClient());
@@ -88,7 +95,7 @@ public class PaymentActivity extends AppCompatActivity {
         cookieManager.setAcceptThirdPartyCookies(webView, true);
 
 
-        if (payUrl != null) {
+        if (payUrl != null && !payUrl.equalsIgnoreCase("")) {
            /* html = "<!DOCTYPE html>" +
                     "<html>" +
                     "<body onload='document.frm1.submit()'>" +

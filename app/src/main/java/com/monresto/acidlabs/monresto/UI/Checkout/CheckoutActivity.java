@@ -518,7 +518,12 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
             Intent intent = new Intent(this, PaymentActivity.class);
             intent.putExtra("orderID", orderID);
-            intent.putExtra("payUrl", payUrl);
+            try {
+                intent.putExtra("payUrl", payUrl);
+            }catch (Exception ignored)
+            {
+
+            }
             startActivityForResult(intent, Config.REQUEST_CODE_PAYMENT);
             ShoppingCart.getInstance().clear();
             finish();

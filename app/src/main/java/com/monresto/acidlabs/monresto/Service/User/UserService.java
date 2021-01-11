@@ -709,7 +709,8 @@ public class UserService {
                                     ((UserAsyncResponse) context).onSubmitOrder(true);
                                 }
                                 else if (paymentID == 2) {
-                                    ((UserAsyncResponse) context).onSubmitOrder(true);
+                                    int orderID = responseJson.optInt("orderID");
+                                    ((UserAsyncResponse) context).onSubmitOrder(true,orderID,"");
 
                                 } else {
                                     try{
