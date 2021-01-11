@@ -25,6 +25,8 @@ import com.monresto.acidlabs.monresto.Service.City.CityAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.City.CityService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.Address.Coordinates;
+import com.monresto.acidlabs.monresto.UI.Address.MapLocation;
 import com.monresto.acidlabs.monresto.UI.Address.UserAddress;
 
 import java.io.IOException;
@@ -96,6 +98,10 @@ public class EditAddressActivity extends AppCompatActivity implements CityAsyncR
         startActivityForResult(locationPickerIntent, Config.AUTOCOMPLETE_REQUEST_CODE);*/
 
         Intent locationPickerIntent = new Intent(this, LocationPickerActivity.class);
+        Coordinates coordinates = new Coordinates();
+        coordinates.setLatitude(oldAddress.getLat());
+        coordinates.setLongitude(oldAddress.getLon());
+        locationPickerIntent.putExtra("coordinates", coordinates);
         startActivityForResult(locationPickerIntent, Config.REQUEST_PLACE_PICKER);
 
         buttonSubmitAddress.setText("Enregistrer");

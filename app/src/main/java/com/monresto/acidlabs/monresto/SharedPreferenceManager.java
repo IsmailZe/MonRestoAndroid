@@ -2,7 +2,6 @@ package com.monresto.acidlabs.monresto;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.monresto.acidlabs.monresto.Model.User;

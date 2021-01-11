@@ -682,8 +682,7 @@ public class UserService {
         queue.add(postRequest);
     }
 
-    public void submitOrders(final int userID, final int type, final int addressID, final int restoID, final String promo, final int paymentID, final int optionOrderID, final int deliveryTime, final String hour, final JSONArray orders) {
-        final JSONArray voucher = new JSONArray();
+    public void submitOrders(final int userID, final int type, final int method, final int addressID, final int restoID, final String promo, final int paymentID, final int optionOrderID, final int deliveryTime, final String hour, final JSONArray orders) {
         final int numtrans = 0;
         final String time = String.valueOf(deliveryTime);
 
@@ -692,7 +691,11 @@ public class UserService {
         RequestQueue queue = Volley.newRequestQueue(context);
         System.out.println("order sig = [" + signature + "]");
 
-        String url = /*Config.server */"https://preprod.monresto.net/ws/v4/" + "User/purchaseOrder.php";
+        String url;
+        if (paymentID == 2)
+            url = Config.server + "User/purchaseOrder.php";
+        else
+            url = "https://www.monresto.net/ws/v4/" + "User/purchaseOrder.php";
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -702,17 +705,14 @@ public class UserService {
                             System.out.println("order response = [" + response + "]");
                             JSONObject responseJson = new JSONObject(response);
                             if (responseJson.getInt("Status") == 1) {
-                                if (paymentID == 1) {
+                                if (paymentID == 2) {
                                     int orderID = responseJson.getInt("orderID");
-                                    ((UserAsyncResponse) context).onSubmitOrder(true, orderID, null);
+                                    ((UserAsyncResponse) context).onSubmitOrder(true);
 
-                                } else if (paymentID == 7) {
+                                } else {
                                     int orderID = responseJson.getInt("orderID");
                                     String url = responseJson.getString("payUrl");
                                     ((UserAsyncResponse) context).onSubmitOrder(true, orderID, url);
-                                } else {
-
-                                    ((UserAsyncResponse) context).onSubmitOrder(true);
                                 }
                             } else
                                 ((UserAsyncResponse) context).onSubmitOrder(false);
@@ -735,6 +735,7 @@ public class UserService {
                 params.put("restoID", String.valueOf(restoID));
                 params.put("orders", orders.toString());
                 params.put("paymentID", String.valueOf(paymentID));
+                params.put("method", String.valueOf(method));
                 params.put("type", String.valueOf(type));
                 params.put("numtrans", String.valueOf(numtrans));
                 params.put("Voucher", "[]");

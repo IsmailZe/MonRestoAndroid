@@ -12,7 +12,7 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     lintOptions {
         checkReleaseBuilds false
@@ -22,9 +22,9 @@ android {
     defaultConfig {
         applicationId "com.mappnet.monresto"
         minSdkVersion 19
-        targetSdkVersion 28
-        versionCode 5293
-        versionName "6.0.3"
+        targetSdkVersion 29
+        versionCode 5297
+        versionName "6.0.7"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [

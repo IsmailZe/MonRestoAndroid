@@ -124,8 +124,9 @@ public class HomepageService {
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     try {
-                        JSONObject jsonResponse = new JSONObject(response);
 
+                        JSONObject jsonResponse = new JSONObject(response);
+                        ((HomepageAsyncResponse) context).onBannerReceived(jsonResponse.getString("banner"));
                         JSONArray listJSON = jsonResponse.getJSONArray("list");
                         ArrayList<HomeItem> listHomeElements = new ArrayList<>();
                         for (int i = 0; i < listJSON.length(); i++) {

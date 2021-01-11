@@ -70,15 +70,12 @@ public class PaymentActivity extends AppCompatActivity {
 
         webView.setWebViewClient(new WebViewClient() {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(PaymentActivity.this, description, Toast.LENGTH_LONG).show();
+
             }
 
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                Toast.makeText(PaymentActivity.this, request.getUrl().toString(), Toast.LENGTH_LONG).show();
-                Log.d("WebViewURL", "WebViewURL " + request.getUrl().toString());
-                Log.i("WebViewURL", "WebViewURL " + request.getUrl().toString());
                 webView.loadUrl(request.getUrl().toString());
                 if (request.getUrl().toString().contains("notification_payment")) {
                     startActivity(new Intent(PaymentActivity.this, ProfileActivity.class));

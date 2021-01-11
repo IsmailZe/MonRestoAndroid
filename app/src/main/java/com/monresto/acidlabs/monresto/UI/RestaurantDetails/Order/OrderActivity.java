@@ -139,7 +139,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
             }
         });
 
-        total_order.setText(String.valueOf(Math.round(dish.getPrice())));
+        total_order.setText(String.format("%.3f", dish.getPrice()));
 
         btnClose.setOnClickListener(view -> finish());
         cancel_order.setOnClickListener(view -> finish());

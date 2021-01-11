@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
 
         if (getIntent().getStringExtra("serviceType") != null) {
-            service.getRestoByRubrique(Semsem.getLat(), Semsem.getLon(), /*getIntent().getStringExtra("serviceType")*/"fleuriste");
+            service.getRestoByRubrique(Semsem.getLat(), Semsem.getLon(), getIntent().getStringExtra("serviceType")/*"fleuriste"*/);
 //            service.getRestoByRubrique(33.824944f, 8.396075f, getIntent().getStringExtra("serviceType"));
         } else
             service.getAll(Semsem.getLat(), Semsem.getLon());

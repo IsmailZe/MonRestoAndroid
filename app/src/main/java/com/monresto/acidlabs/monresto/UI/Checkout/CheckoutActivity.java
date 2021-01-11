@@ -156,8 +156,6 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
         }
 
 
-
-
         //Event handlers
         imageProfileBack.setOnClickListener(e -> {
 
@@ -196,13 +194,17 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
                 hour = hh + mm;
             }
 
-
-            if (paymentMethod == 1)
-                paymentMethod++;
-            else if (paymentMethod == 2)
-                paymentMethod = 1;
-            else if (paymentMethod == 3)
+            int method = 0;
+            if (payementRadioListAdapter.getSelectedOption().toString().contains("livraison"))
+                paymentMethod = 2;
+            else {
                 paymentMethod = 7;
+                if (payementRadioListAdapter.getSelectedOption().toString().contains("SemsemPay"))
+                    method = 2;
+                else method = 1;
+
+            }
+
 
             if (User.getInstance() != null)
                 try {
@@ -213,7 +215,7 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
                         String promo = promo_text.getText().toString();
                         orderLoading.setEnabled(false);
                         orderLoading.setProgress(1);
-                        userService.submitOrders(User.getInstance().getId(), 0, User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurantID(), promo, paymentMethod, orderOptionID, deliveryTime, hour, ShoppingCart.getInstance().getOrdersJson());
+                        userService.submitOrders(User.getInstance().getId(), type, method, User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurantID(), promo, paymentMethod, orderOptionID, deliveryTime, hour, ShoppingCart.getInstance().getOrdersJson());
                     }
                 } catch (Exception ex) {
                 }
@@ -255,8 +257,12 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
         subjects = getResources().getStringArray(R.array.payment_methods);
         descriptions = getResources().getStringArray(R.array.payment_methods_description);
 
-        if (restaurant != null && !restaurant.hasSemsemPay())
+        /*if (restaurant != null && !restaurant.hasSemsemPay())
             subjects = new CharSequence[]{subjects[0], subjects[1]};
+        else if (restaurant != null && restaurant.hasSemsemPay())
+            subjects = new CharSequence[]{subjects[0], subjects[2]};*/
+
+        descriptions = new CharSequence[]{descriptions[0], restaurant.getPayementModeDescriptionByType(1), restaurant.getPayementModeDescriptionByType(7)};
 
         payementRadioListAdapter = new RadioListAdapter(new ArrayList<>(Arrays.asList(subjects)), new ArrayList<>(Arrays.asList(descriptions)), this, 0);
 
@@ -326,6 +332,11 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
         initRecyclerViews();
         initDeliveryTime();
         initializeCheckoutTime(restaurant);
+        initPayementTypes();
+    }
+
+    private void initPayementTypes() {
+
     }
 
     private void initDeliveryTime() {

@@ -7,10 +7,18 @@ public class PaymentMode implements Serializable {
     private String title;
     private String image;
 
-    public PaymentMode(int id, String title, String image) {
+    private String paymentModeDesc;
+
+
+    public PaymentMode(int id, String title, String paymentModeDesc, String image) {
         this.id = id;
         this.title = title;
+        this.paymentModeDesc = paymentModeDesc;
         this.image = image;
+    }
+
+    public String getPaymentModeDesc() {
+        return paymentModeDesc;
     }
 
     public int getId() {

@@ -142,7 +142,7 @@ public class Restaurant implements Parcelable {
             }
             for (int i = 0; i < payms.length(); i++) {
                 JSONObject paym = payms.getJSONObject(i);
-                P.add(new PaymentMode(Integer.valueOf(paym.optString("paymentModeID")), paym.optString("paymentModeTitle"), paym.optString("image")));
+                P.add(new PaymentMode(Integer.valueOf(paym.optString("paymentModeID")), paym.optString("paymentModeTitle"), paym.optString("paymentModeDesc"), paym.optString("image")));
             }
             return new Restaurant(obj.optInt("restoID"), obj.optDouble("latitude"),
                     obj.optDouble("longitude"), obj.optDouble("distance"),
@@ -369,5 +369,14 @@ public class Restaurant implements Parcelable {
                     return true;
             }
         return false;
+    }
+
+    public CharSequence getPayementModeDescriptionByType(int paymentModeID) {
+        for (PaymentMode paymentMode : paymentModes) {
+            if (paymentMode.getId() == paymentModeID) {
+                return paymentMode.getPaymentModeDesc();
+            }
+        }
+        return "";
     }
 }

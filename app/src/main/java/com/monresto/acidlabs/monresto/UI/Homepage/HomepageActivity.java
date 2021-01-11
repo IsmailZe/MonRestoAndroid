@@ -78,6 +78,8 @@ import com.monresto.acidlabs.monresto.UI.RestaurantDetails.RestaurantDetailsActi
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 import com.monresto.acidlabs.monresto.WrappableGridLayoutManager;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,11 +92,8 @@ import butterknife.ButterKnife;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
-import zendesk.core.AnonymousIdentity;
-import zendesk.core.Identity;
 import zendesk.core.Zendesk;
 import zendesk.support.Support;
-import zendesk.support.requestlist.RequestListActivity;
 
 import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_ASK_FOR_LOCATION;
 import static com.monresto.acidlabs.monresto.Model.Semsem.loginPending;
@@ -137,6 +136,11 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     RecyclerView rvHomeList;
     @BindView(R.id.rv_home_grid)
     RecyclerView rvHomeGrid;
+
+    @BindView(R.id.layout_banner)
+    View layoutBanner;
+    @BindView(R.id.niv_banner)
+    ImageView nivBanner;
 
     private boolean askedMain = false;
     public static HashMap<String, String> settingsMap = new HashMap<>();
@@ -267,9 +271,11 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         }
         cardViewBgSupport.setOnClickListener(e -> {
 
-            if (User.getInstance() == null) {
-                /*Snackbar.make(homepageLayout, R.string.connect, Snackbar.LENGTH_SHORT)
-                        .show();*/
+            startFacebookActivity(getPackageManager());
+
+            /*if (User.getInstance() == null) {
+             *//*Snackbar.make(homepageLayout, R.string.connect, Snackbar.LENGTH_SHORT)
+                        .show();*//*
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
             } else {
@@ -293,7 +299,7 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
                         .intent(getApplicationContext());
                 requestActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(requestActivityIntent);
-            }
+            }*/
 
         });
 
@@ -303,6 +309,16 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         rvHomeList.setNestedScrollingEnabled(false);
     }
 
+
+    public void startFacebookActivity(PackageManager pm) {
+        String url = "fb-messenger://user/155202334494790";
+        Uri uri = Uri.parse(url);
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        } catch (Exception e) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.messenger.com/t/155202334494790")));
+        }
+    }
 
     public void checkInternet() {
         new InternetCheck(internet -> {
@@ -611,6 +627,26 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
             homepage_swiper.setRefreshing(false);
         }
 
+    }
+
+    @Override
+    public void onBannerReceived(String url) {
+        if (url != null) {
+            layoutBanner.setVisibility(View.VISIBLE);
+            Picasso.get().load(url).into(nivBanner, new Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    layoutBanner.setVisibility(View.GONE);
+                }
+            });
+        } else {
+            layoutBanner.setVisibility(View.GONE);
+        }
     }
 
     @Override

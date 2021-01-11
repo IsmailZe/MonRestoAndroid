@@ -76,6 +76,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         } catch (Exception ignored) {
 
         }
+        Coordinates coordinates = (Coordinates) getIntent().getSerializableExtra("coordinates");
         try {
             bitmapDescriptor
                     = BitmapDescriptorFactory
@@ -87,7 +88,16 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         if (mapfragment == null) {
             mapfragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapfragment));
             assert mapfragment != null;
+            if (coordinates == null) {
+                GPSTracker gpsTracker = new GPSTracker(this);
+                coordinates = new Coordinates();
+                coordinates.setLatitude(gpsTracker.latitude);
+                coordinates.setLongitude(gpsTracker.longitude);
+                userAddress.setMapLocation(new MapLocation(coordinates));
+            }
+            userAddress.setMapLocation(new MapLocation(coordinates));
             mapfragment.getMapAsync(this);
+
         }
 
         try {
@@ -146,7 +156,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         } catch (Exception e) {
             e.printStackTrace();
         }
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 12.0f));
+//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 12.0f));
 
     }
 

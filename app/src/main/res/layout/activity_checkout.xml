@@ -317,7 +317,8 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/label_paiement_semsem_pay"
                     android:textColor="@color/green1"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public interface HomepageAsyncResponse {
     void onHomepageConfigReceived(HomepageConfig config);
 
+
     void onHomepageEventsReceived(ArrayList<HomepageEvent> events);
 
     void onHomepageDishesReceived(ArrayList<HomepageDish> dishes);
@@ -20,4 +21,6 @@ public interface HomepageAsyncResponse {
     void onHomepageError(boolean b);
 
     void onHomeLoaded(ArrayList<HomeItem> listHomeElements, ArrayList<HomeItem> gridHomeElements);
+
+    void onBannerReceived(String url);
 }

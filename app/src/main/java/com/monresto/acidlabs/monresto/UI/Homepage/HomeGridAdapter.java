@@ -123,6 +123,7 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
                 });
                 break;
             case "550":
+            case "370":
                 //if coursier was selected
                 viewHolder.itemView.setOnClickListener(e -> {
                     //Toast.makeText(context, "Ce service sera bientôt disponible", Toast.LENGTH_SHORT).show();
