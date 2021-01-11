@@ -704,11 +704,11 @@ public class UserService {
                         try {
                             JSONObject responseJson = new JSONObject(response);
                             if (responseJson.getInt("Status") == 1) {
-                                if(paymentID == 1)
+                                if(paymentID == 2)
                                 {
                                     ((UserAsyncResponse) context).onSubmitOrder(true);
                                 }
-                                else if (paymentID == 2) {
+                                else if (paymentID == 1) {
                                     int orderID = responseJson.optInt("orderID");
                                     ((UserAsyncResponse) context).onSubmitOrder(true,orderID,"");
 
