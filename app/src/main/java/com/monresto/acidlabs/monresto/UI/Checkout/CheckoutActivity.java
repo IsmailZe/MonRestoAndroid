@@ -255,14 +255,17 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
         //1
         subjects = getResources().getStringArray(R.array.payment_methods);
-        descriptions = getResources().getStringArray(R.array.payment_methods_description);
-
+        //descriptions = getResources().getStringArray(R.array.payment_methods_description);
+            descriptions = new CharSequence[0];
         /*if (restaurant != null && !restaurant.hasSemsemPay())
             subjects = new CharSequence[]{subjects[0], subjects[1]};
         else if (restaurant != null && restaurant.hasSemsemPay())
             subjects = new CharSequence[]{subjects[0], subjects[2]};*/
+        if(descriptions!=null && descriptions.length>0)
+        {
+            descriptions = new CharSequence[]{descriptions[0], restaurant.getPayementModeDescriptionByType(1), restaurant.getPayementModeDescriptionByType(7)};
+        }
 
-        descriptions = new CharSequence[]{descriptions[0], restaurant.getPayementModeDescriptionByType(1), restaurant.getPayementModeDescriptionByType(7)};
 
         payementRadioListAdapter = new RadioListAdapter(new ArrayList<>(Arrays.asList(subjects)), new ArrayList<>(Arrays.asList(descriptions)), this, 0);
 

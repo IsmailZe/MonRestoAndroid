@@ -48,10 +48,10 @@
     </string-array>
 
     <string-array name="payment_methods">
-        <item>Paiement à la livraison</item>
-        <item>Paiement par carte bancaire </item>
-        <item>Paiement par SemsemPay </item>
+        <item>Carte crédit</item>
+        <item>Espèce</item>
     </string-array>
+
 
     <string-array name="payment_methods_description">
         <item>Espèce ou QR code Semsem  </item>

@@ -691,29 +691,36 @@ public class UserService {
         RequestQueue queue = Volley.newRequestQueue(context);
         System.out.println("order sig = [" + signature + "]");
 
-        String url;
-        if (paymentID == 2)
+        String url = Config.server + "User/purchaseOrder.php";
+        /*if (paymentID == 2)
             url = Config.server + "User/purchaseOrder.php";
         else
-            url = "https://www.monresto.net/ws/v4/" + "User/purchaseOrder.php";
+            url = "https://www.monresto.net/ws/v4/" + "User/purchaseOrder.php";*/
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            System.out.println("order response = [" + response + "]");
                             JSONObject responseJson = new JSONObject(response);
                             if (responseJson.getInt("Status") == 1) {
-                                if (paymentID == 2) {
-                                    int orderID = responseJson.getInt("orderID");
+                                if(paymentID == 1)
+                                {
+                                    ((UserAsyncResponse) context).onSubmitOrder(true);
+                                }
+                                else if (paymentID == 2) {
                                     ((UserAsyncResponse) context).onSubmitOrder(true);
 
                                 } else {
-                                    int orderID = responseJson.getInt("orderID");
-                                    String url = responseJson.getString("payUrl");
-                                    ((UserAsyncResponse) context).onSubmitOrder(true, orderID, url);
-                                }
+                                    try{
+                                        int orderID = responseJson.getInt("orderID");
+                                        String url = responseJson.optString("payUrl");
+                                        ((UserAsyncResponse) context).onSubmitOrder(true, orderID, url);
+                                    }catch (Exception ignored)
+                                    {
+
+                                    }
+                    }
                             } else
                                 ((UserAsyncResponse) context).onSubmitOrder(false);
 

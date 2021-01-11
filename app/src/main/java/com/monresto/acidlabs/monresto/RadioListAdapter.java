@@ -85,7 +85,7 @@ public class RadioListAdapter extends RecyclerView.Adapter<RadioListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull RadioListAdapter.ViewHolder viewHolder, int i) {
         CharSequence option = options.get(i);
-        if (descriptionList != null) {
+        if (descriptionList != null && descriptionList.size()>0) {
             CharSequence description = descriptionList.get(i);
             viewHolder.optionDescription.setText(description);
             viewHolder.optionDescription.setVisibility(View.VISIBLE);
