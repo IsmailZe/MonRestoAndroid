@@ -195,15 +195,21 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
             }
 
             int method = 0;
-            if (payementRadioListAdapter.getSelectedOption().toString().contains("livraison"))
+            if (payementRadioListAdapter.getSelectedOption().toString().contains("Espèce"))
+            {
                 paymentMethod = 2;
+                method = 2;
+            }
             else {
-                paymentMethod = 7;
+                paymentMethod = 1;
+                method = 1;
+            }
+            /*else {
+                paymentMethod = 1;
                 if (payementRadioListAdapter.getSelectedOption().toString().contains("SemsemPay"))
                     method = 2;
                 else method = 1;
-
-            }
+            }*/
 
 
             if (User.getInstance() != null)
